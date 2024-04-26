@@ -37,8 +37,14 @@ app.post('/webhook', (req, res) => {
 
   let body_param = req.body;
 
-  console.log(JSON.stringify(body_param, null, 2));
-
+  // console.log(JSON.stringify(body_param, null, 2));
+  // {
+  //   messaging_product: 'whatsapp',
+  //   to: from,
+  //   text: {
+  //     body: "Hi.. I'm Prasath, your message is " + msg_body,
+  //   },
+  // },
   if (body_param.object) {
     console.log('inside body param');
     if (
@@ -65,9 +71,14 @@ app.post('/webhook', (req, res) => {
           token,
         data: {
           messaging_product: 'whatsapp',
+          recipient_type: 'individual',
           to: from,
-          text: {
-            body: "Hi.. I'm Prasath, your message is " + msg_body,
+          type: 'template',
+          template: {
+            name: 'auto_msg',
+            language: {
+              code: 'pt_BR',
+            },
           },
         },
         headers: {
