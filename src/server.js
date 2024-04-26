@@ -12,6 +12,10 @@ app.listen(process.env.PORT, () => {
   console.log(`webhook is listening: ${process.env.PORT}`);
 });
 
+app.get('/heathcheck', (req, res) => {
+  res.status(200).send('OK');
+});
+
 //to verify the callback url from dashboard side - cloud api side
 app.get('/webhook', (req, res) => {
   let mode = req.query['hub.mode'];
