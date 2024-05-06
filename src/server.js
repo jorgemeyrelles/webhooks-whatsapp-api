@@ -32,7 +32,7 @@ app.get('/webhook', (req, res) => {
   res.status(200).send('em method GET');
 });
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
   //i want some
 
   let body_param = req.body;
@@ -47,6 +47,19 @@ app.post('/webhook', (req, res) => {
   // },
   if (body_param.object) {
     console.log('inside body param');
+    const failed =
+      body_param.entry[0].changes[0].value?.statuses[0]?.status === 'failed';
+    if (failed) {
+      const contentFaield = body_param.entry[0].changes[0].value?.statuses[0];
+      await axios({
+        method: 'POST',
+        url: env.WEBHOOK_DISCORD,
+        data: { content: JSON.stringify(contentFaield) },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
     if (
       body_param.entry &&
       body_param.entry[0].changes &&
@@ -62,7 +75,7 @@ app.post('/webhook', (req, res) => {
       console.log('from ' + from);
       console.log('boady param ' + msg_body);
 
-      axios({
+      await axios({
         method: 'POST',
         url:
           'https://graph.facebook.com/v13.0/' +
