@@ -53,7 +53,7 @@ app.post('/webhook', async (req, res) => {
       const contentFaield = body_param.entry[0].changes[0].value?.statuses[0];
       await axios({
         method: 'POST',
-        url: env.WEBHOOK_DISCORD,
+        url: process.env.WEBHOOK_DISCORD,
         data: { content: JSON.stringify(contentFaield) },
         headers: {
           'Content-Type': 'application/json',
