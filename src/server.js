@@ -7,6 +7,7 @@ const app = express().use(body_parser.json());
 
 const token = process.env.TOKEN;
 const mytoken = process.env.MYTOKEN; //prasath_token
+const urlDiscork = process.env.WEBHOOK_DISCORD;
 
 app.listen(process.env.PORT, () => {
   console.log(`webhook is listening: ${process.env.PORT}`);
@@ -47,19 +48,19 @@ app.post('/webhook', async (req, res) => {
   // },
   if (body_param.object) {
     console.log('inside body param');
-    const failed =
-      body_param.entry[0].changes[0].value?.statuses[0]?.status === 'failed';
-    if (failed) {
-      const contentFaield = body_param.entry[0].changes[0].value?.statuses[0];
-      await axios({
-        method: 'POST',
-        url: process.env.WEBHOOK_DISCORD,
-        data: { content: JSON.stringify(contentFaield) },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
+    // const failed =
+    //   body_param.entry[0].changes[0].value?.statuses[0]?.status === 'failed';
+    // if (failed) {
+    //   const contentFaield = body_param.entry[0].changes[0].value?.statuses[0];
+    //   await axios({
+    //     method: 'POST',
+    //     url: urlDiscork,
+    //     data: { content: JSON.stringify(contentFaield) },
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   });
+    // }
     if (
       body_param.entry &&
       body_param.entry[0].changes &&
